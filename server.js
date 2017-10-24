@@ -8,7 +8,7 @@ const io = require("socket.io")(server)
 
 //serve files out of public folder
 
-app.use(express.static(__dirname + "/public"))
+app.use(express.static(__dirname + "/"))
 
 let userConnections = []
 io.on("connection", function(socket){
