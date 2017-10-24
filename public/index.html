@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ChattyBatty</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    //connect to the socket server: the socket variable will represent the connection
+    //to the server by default socket.io in the browser will connect to the server
+    //that served the webpage
+      let socket = io()
+      //once window is loaded:
+      window.onload = function(){
+        console.log('linked')
+        // io.on("connection"), function(socket){
+        //   console.log("new connection from " + socket.id)
+        // }
+
+      let form = document.querySelector('#form')
+      let textArea = document.querySelector('#text')
+      let unamme = document.querySelector('#uname')
+      let container = document.querySelector('ul')
+
+      form.addEventListener('submit', function(event){
+        event.preventDefault();
+        console.log(`sending ${textArea.value} to server`)
+        let message = {
+          username: uname.value,
+          message: textArea.value
+        }
+        socket.emit('send', message)
+      })
+
+    socket.on('message-from-friend',function(event){
+      console.log('message', event)
+      let li = document.createElement('li')
+      li.innerHTML = event.username + ':' + event.message
+      container.appendChild(li)
+    })
+
+
+}
+    </script>
+  </head>
+  <body>
+    <!-- <h1>simple chat</h1>
+    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <button id="send">send</button> -->
+    <ul>
+
+    </ul>
+  <form action="" id="form">
+  <input type="text" placeholder="username" id="uname">
+  <input type="text" id="text"><button id="send">send</button>
+
+  </form>
+  </body>
+</html>
